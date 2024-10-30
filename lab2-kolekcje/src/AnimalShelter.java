@@ -56,7 +56,9 @@ class AnimalShelter {
     }
 
     public Optional<Animal> search(String name) {
-        return animalList.stream().filter(a -> a.getName().equals(name)).findFirst();
+        return animalList.stream()
+                .filter(a -> a.getName().equals(name))
+                .min(Comparator.comparing(Animal::getName));
     }
 
     public List<Animal> searchPartial(String keyword) {
