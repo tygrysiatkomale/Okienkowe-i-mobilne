@@ -28,7 +28,7 @@ public class LoginController {
         } else if ("user".equals(username) && "user".equals(password)) {
             openClientPanel();
         } else {
-            Alert alert = new Alert(Alert.AlertType.Error);
+            Alert alert = new Alert(Alert.AlertType.ERROR);
             alert.setTitle("Login Error");
             alert.setHeaderText(null);
             alert.setContentText("Invalid login or password");

@@ -7,6 +7,7 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
+import javafx.scene.control.cell.PropertyValueFactory;
 
 public class ClientPanelController {
 
@@ -45,8 +46,8 @@ public class ClientPanelController {
 
     @FXML
     private void handleShelterSelection() {
-        String selectedShelter = shelterComboBox.getValue();
-        AnimalShelter selectedShelter = shelterManager.getShelter(selectedShelter);
+        String selectedShelterName = shelterComboBox.getValue();
+        AnimalShelter selectedShelter = shelterManager.getShelter(selectedShelterName);
         animalList = FXCollections.observableArrayList(selectedShelter.getAnimalList());
         animalTable.setItems(animalList);
     }
