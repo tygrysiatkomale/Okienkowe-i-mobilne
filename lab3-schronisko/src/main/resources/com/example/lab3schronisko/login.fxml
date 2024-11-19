@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.control.*?>
+
+<AnchorPane xmlns:fx="http://javafx.com/fxml" fx:controller="com.example.lab3schronisko.controller.LoginController">
+    <children>
+        <Label layoutX="100" layoutY="50" text="Login:" />
+        <TextField fx:id="usernameField" layoutX="160" layoutY="50" />
+        <Label layoutX="100" layoutY="90" text="Password:" />
+        <PasswordField fx:id="passwordField" layoutX="160" layoutY="90" />
+        <Button layoutX="160" layoutY="130" text="Zaloguj" onAction="#handleLoginButton" />
+    </children>
+</AnchorPane>
