@@ -129,6 +129,72 @@ public class AdminPanelController {
         }
     }
 
-    
+    @FXML
+    private void handleEditShelter() {
+        AnimalShelter selectedShelter = shelterTable.getSelectionModel().getSelectedItem();
+        if (selectedShelter != null) {
+            TextInputDialog nameDialog = new TextInputDialog(selectedShelter.getShelterName());
+            nameDialog.setTitle("Edit Shelter");
+            nameDialog.setHeaderText(null);
+            nameDialog.setContentText("Shelter Name");
+
+            Optional<String> nameResult = nameDialog.showAndWait();
+            if (nameResult.isPresent()) {
+                String newName = nameResult.get().trim();
+                if (newName.isEmpty()) {
+                    showAlert(Alert.AlertType.ERROR, "Error", "Shelter name cannot be empty");
+                    return;
+                }
+
+                TextInputDialog capacityDialog = new TextInputDialog(String.valueOf(selectedShelter.getMaxCapacity()));
+                capacityDialog.setTitle("Edit Shelter");
+                capacityDialog.setHeaderText(null);
+                capacityDialog.setContentText("Max Capacity");
+
+                Optional<String> capacityResult = capacityDialog.showAndWait();
+                if (capacityResult.isPresent()) {
+                    String capacityStr = capacityResult.get().trim();
+                    try {
+                        int newCapacity = Integer.parseInt(capacityStr);
+                        if (newCapacity <= 0) {
+                            showAlert(Alert.AlertType.ERROR, "Error", "Maximum capacity must be greater than 0");
+                            return;
+                        }
+                        selectedShelter.setShelterName(newName);
+                        selectedShelter.setMaxCapacity(newCapacity);
+                        shelterTable.refresh();
+                    } catch (NumberFormatException e) {
+                        showAlert(Alert.AlertType.ERROR, "Error", "Maximum capacity must be an integer");
+                    }
+                }
+            }
+        } else {
+            showAlert(Alert.AlertType.WARNING, "No Shelter Selected", "Please select a shelter to edit");
+        }
+    }
+
+    @FXML
+    private void handleFilterShelters() {
+        String filterText = filterTextField.getText().trim().toLowerCase();
+        if (filterText.isEmpty()) {
+            shelterTable.setItems(shelterList);
+            return;
+        }
+
+        ObservableList<AnimalShelter> filteredList = FXCollections.observableArrayList(
+                shelterList.stream()
+                        .filter(shelter -> shelter.getShelterName().toLowerCase().contains(filterText))
+                        .toList()
+        );
+        shelterTable.setItems(filteredList);
+    }
+
+    private void showAlert(Alert.AlertType alertType, String title, String message){
+        Alert alert = new Alert(alertType);
+        alert.setTitle(title);
+        alert.setHeaderText(null);
+        alert.setContentText(message);
+        alert.showAndWait();
+    }
 }
 
