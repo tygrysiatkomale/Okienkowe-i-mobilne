@@ -32,6 +32,8 @@
             <Button text="Remove shelter" onAction="#handleRemoveShelter" fx:id="removeShelterButton"/>
             <Button text="Edit shelter" onAction="#handleEditShelter" fx:id="editShelterButton"/>
             <Button text="Sort Shelters" onAction="#handleSortShelter" fx:id="sortShelterButton"/>
+            <Button text="Add Animal" onAction="#handleAddAnimal" fx:id="addAnimalButton"/>
+
         </HBox>
     </bottom>
 </BorderPane>

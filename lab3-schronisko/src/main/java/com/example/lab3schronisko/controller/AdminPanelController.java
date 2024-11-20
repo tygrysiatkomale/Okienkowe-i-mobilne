@@ -1,6 +1,9 @@
 package com.example.lab3schronisko.controller;
 
+import com.example.lab3schronisko.exceptions.CapacityExceededException;
 import com.example.lab3schronisko.exceptions.InvalidOperationException;
+import com.example.lab3schronisko.model.Animal;
+import com.example.lab3schronisko.model.AnimalCondition;
 import com.example.lab3schronisko.model.ShelterManager;
 import javafx.scene.control.cell.PropertyValueFactory;
 import com.example.lab3schronisko.model.AnimalShelter;
@@ -41,6 +44,9 @@ public class AdminPanelController {
 
     @FXML
     private Button sortShelterButton;
+
+    @FXML
+    private Button addAnimalButton;
 
     private ObservableList<AnimalShelter> shelterList;
 
@@ -194,6 +200,110 @@ public class AdminPanelController {
                         .toList()
         );
         shelterTable.setItems(filteredList);
+    }
+
+    @FXML
+    private void handleAddAnimal() {
+        AnimalShelter selectedShelter = shelterTable.getSelectionModel().getSelectedItem();
+        if (selectedShelter == null) {
+            showAlert(Alert.AlertType.ERROR, "Error", "No Shelter Selected");
+            return;
+        }
+
+        // Wprowadzanie nazwy
+        TextInputDialog nameDialog = new TextInputDialog();
+        nameDialog.setTitle("Add Animal");
+        nameDialog.setHeaderText(null);
+        nameDialog.setContentText("Animal Name");
+
+        Optional<String> nameResult = nameDialog.showAndWait();
+        if (!nameResult.isPresent()) return;
+
+        String name = nameResult.get().trim();
+        if (name.isEmpty()) {
+            showAlert(Alert.AlertType.ERROR, "Error", "Animal Name cannot be empty");
+            return;
+        }
+
+        // Wprowadzanie gatunku
+        TextInputDialog speciesDialog = new TextInputDialog();
+        speciesDialog.setTitle("Add Animal");
+        speciesDialog.setHeaderText(null);
+        speciesDialog.setContentText("Species: ");
+
+        Optional<String> speciesResult = speciesDialog.showAndWait();
+        if (!speciesResult.isPresent()) return;
+
+        String species = speciesResult.get().trim();
+        if (species.isEmpty()) {
+            showAlert(Alert.AlertType.ERROR, "Error", "Species cannot be empty");
+            return;
+        }
+
+        // Wprowadzanie zdrowia
+        ChoiceDialog<AnimalCondition> conditionsDialog = new ChoiceDialog<>(AnimalCondition.HEALTHY, AnimalCondition.values());
+        conditionsDialog.setTitle("Add Animal");
+        conditionsDialog.setHeaderText(null);
+        conditionsDialog.setContentText("Select Condition: ");
+
+        Optional<AnimalCondition> conditionResult = conditionsDialog.showAndWait();
+        if (!conditionResult.isPresent()) return;
+
+        AnimalCondition condition = conditionResult.get();
+
+        // Wprowadzanie wieku
+        TextInputDialog ageDialog = new TextInputDialog();
+        ageDialog.setTitle("Add Animal");
+        ageDialog.setHeaderText(null);
+        ageDialog.setContentText("Age: ");
+
+        Optional<String> ageResult = ageDialog.showAndWait();
+        if (!ageResult.isPresent()) return;
+        String ageStr = ageResult.get().trim();
+        int age;
+        try{
+            age = Integer.parseInt(ageStr);
+            if (age < 0) {
+                showAlert(Alert.AlertType.ERROR, "Error", "Age must be a positive integer");
+                return;
+            }
+        } catch (NumberFormatException e) {
+            showAlert(Alert.AlertType.ERROR, "Error", "Age must be an integer");
+            return;
+        }
+
+        // Wprowadzanie ceny
+        TextInputDialog priceDialog = new TextInputDialog();
+        priceDialog.setTitle("Add Animal");
+        priceDialog.setHeaderText(null);
+        priceDialog.setContentText("Price: ");
+
+        Optional<String> priceResult = priceDialog.showAndWait();
+        if (!priceResult.isPresent()) return;
+
+        String priceStr = priceResult.get().trim();
+        double price;
+        try {
+            price = Double.parseDouble(priceStr);
+            if (price < 0) {
+                showAlert(Alert.AlertType.ERROR, "Error", "Price must be a positive number");
+                return;
+            }
+        } catch (NumberFormatException e) {
+            showAlert(Alert.AlertType.ERROR, "Error", "Price must be a number");
+            return;
+        }
+
+        // Tworzenie obiektu animal
+        Animal newAnimal = new Animal(name, species, condition, age, price);
+
+        // Dodawanie do schroniska
+        try {
+            selectedShelter.addAnimal(newAnimal);
+            showAlert(Alert.AlertType.INFORMATION, "Success", "Animal Added successfully");
+        } catch (CapacityExceededException | InvalidOperationException e) {
+            showAlert(Alert.AlertType.ERROR, "Error", e.getMessage());
+        }
     }
 
     private void showAlert(Alert.AlertType alertType, String title, String message){

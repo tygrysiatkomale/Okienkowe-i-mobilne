@@ -40,8 +40,6 @@ public class AnimalShelter {
         this.maxCapacity = maxCapacity;
     }
 
-
-
     public void addAnimal(Animal animal) throws CapacityExceededException, InvalidOperationException {
         if (animalList.size() >= maxCapacity) {
             throw new CapacityExceededException("Cannot add more animals, maximum capacity has been reached");
