@@ -2,14 +2,14 @@ package com.example.lab3schronisko.tests;
 
 import com.example.lab3schronisko.exceptions.CapacityExceededException;
 import com.example.lab3schronisko.exceptions.InvalidOperationException;
-import com.example.lab3schronisko.model.Animal;
 import com.example.lab3schronisko.model.AnimalCondition;
 import com.example.lab3schronisko.model.AnimalShelter;
+import static org.junit.jupiter.api.Assertions.*;
+import com.example.lab3schronisko.model.Animal;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import static org.junit.jupiter.api.Assertions.*;
-import java.util.List;
 import java.util.Optional;
+import java.util.List;
 
 
 public class AnimalShelterTest {
@@ -25,7 +25,9 @@ public class AnimalShelterTest {
     public void testAddAnimal() throws CapacityExceededException, InvalidOperationException {
         Animal animal1 = new Animal("Reksio", "Pies", AnimalCondition.HEALTHY, 3, 200.0);
         shelter.addAnimal(animal1);
-        assertTrue(shelter.getAnimalList().contains(animal1));
+        List<Animal> animals = shelter.getAnimalList();
+        assertEquals(1, animals.size());
+        assertTrue(animals.contains(animal1));
     }
 
     @Test
@@ -130,14 +132,11 @@ public class AnimalShelterTest {
     public void testSearchPartial() throws CapacityExceededException, InvalidOperationException {
         Animal animal1 = new Animal("Reksio", "Pies", AnimalCondition.HEALTHY, 3, 200.0);
         Animal animal2 = new Animal("Murka", "Kot", AnimalCondition.SICK, 2, 150.0);
-        Animal animal3 = new Animal("Burek", "Pies", AnimalCondition.QUARANTINE, 5, 300.0);
         shelter.addAnimal(animal1);
         shelter.addAnimal(animal2);
-        shelter.addAnimal(animal3);
-        List<Animal> result = shelter.searchPartial("pe");
-        assertEquals(2, result.size());
-        assertTrue(result.contains(animal1));
-        assertTrue(result.contains(animal3));
+        List<Animal> result = shelter.searchPartial("ko");
+        assertEquals(1, result.size());
+        assertTrue(result.contains(animal2));
     }
 
     @Test

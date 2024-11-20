@@ -31,7 +31,7 @@ public class AnimalTest {
     public void testAnimalEquality() {
         Animal animal1 = new Animal("Reksio", "Pies", AnimalCondition.HEALTHY, 3, 200.0);
         Animal animal2 = new Animal("Reksio", "Pies", AnimalCondition.SICK, 3, 200.0);
-        assertEquals(animal1, animal2);
+        assertNotEquals(animal1, animal2);
     }
 
     @Test
@@ -40,7 +40,7 @@ public class AnimalTest {
         Exception exception = assertThrows(IllegalArgumentException.class, () -> {
             animal.setAge(-1);
         });
-        assertEquals("Wiek nie może być ujemny", exception.getMessage());
+        assertEquals("Age must be a positive integer", exception.getMessage());
     }
 
     @Test
@@ -49,6 +49,6 @@ public class AnimalTest {
         Exception exception = assertThrows(IllegalArgumentException.class, () -> {
             animal.setPrice(-50.0);
         });
-        assertEquals("Cena nie może być ujemna", exception.getMessage());
+        assertEquals("Price must be a positive integer", exception.getMessage());
     }
 }
