@@ -8,6 +8,8 @@ import com.example.lab3schronisko.model.AnimalShelter;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
+import java.util.List;
+import java.util.Optional;
 
 
 public class AnimalShelterTest {
@@ -64,7 +66,7 @@ public class AnimalShelterTest {
         shelter.addAnimal(animal1);
         shelter.getAnimal(animal1);
         assertFalse(shelter.getAnimalList().contains(animal1));
-        assertEquals(AnimalCondition.W_TRAKCIE_ADOPCJI, animal1.getCondition());
+        assertEquals(AnimalCondition.IN_PROGRESS_OF_ADOPTION, animal1.getCondition());
     }
 
     @Test
