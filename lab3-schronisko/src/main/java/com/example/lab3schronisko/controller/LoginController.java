@@ -20,8 +20,8 @@ public class LoginController {
 
     @FXML
     private void handleLoginButton(){
-        String username = usernameField.getText();
-        String password = passwordField.getText();
+        String username = usernameField.getText().trim();
+        String password = passwordField.getText().trim();
 
         if ("admin".equals(username) && "admin".equals(password)){
             openAdminPanel();
@@ -46,7 +46,8 @@ public class LoginController {
             stage.show();
 
             // close login window
-            ((Stage) usernameField.getScene().getWindow()).close();
+            Stage currentStage = (Stage) usernameField.getScene().getWindow();
+            currentStage.close();
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -61,7 +62,8 @@ public class LoginController {
             stage.setScene(new Scene(root));
             stage.show();
 
-            ((Stage) usernameField.getScene().getWindow()).close();
+            Stage currentStage = (Stage) usernameField.getScene().getWindow();
+            currentStage.close();
         } catch (Exception e) {
             e.printStackTrace();
         }

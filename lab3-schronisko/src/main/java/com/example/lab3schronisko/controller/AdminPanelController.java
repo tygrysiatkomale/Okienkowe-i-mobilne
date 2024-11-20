@@ -1,13 +1,15 @@
 package com.example.lab3schronisko.controller;
 
-import com.example.lab3schronisko.model.AnimalShelter;
+import com.example.lab3schronisko.exceptions.InvalidOperationException;
 import com.example.lab3schronisko.model.ShelterManager;
-import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
-import javafx.fxml.FXML;
-import javafx.scene.control.TableView;
-import javafx.scene.control.TableColumn;
 import javafx.scene.control.cell.PropertyValueFactory;
+import com.example.lab3schronisko.model.AnimalShelter;
+import javafx.collections.ObservableList;
+import javafx.collections.FXCollections;
+import javafx.scene.control.*;
+import javafx.fxml.FXML;
+
+import java.util.Optional;
 
 
 public class AdminPanelController {
@@ -21,6 +23,24 @@ public class AdminPanelController {
     @FXML
     private TableColumn<AnimalShelter, Integer> capacityColumn;
 
+    @FXML
+    private TextField filterTextField;
+
+    @FXML
+    private Button filterButton;
+
+    @FXML
+    private Button addShelterButton;
+
+    @FXML
+    private Button removeShelterButton;
+
+    @FXML
+    private Button editShelterButton;
+
+    @FXML
+    private Button sortShelterButton;
+
     private ObservableList<AnimalShelter> shelterList;
 
     private ShelterManager shelterManager;
@@ -28,11 +48,87 @@ public class AdminPanelController {
     @FXML
     private void initialize() {
         shelterManager = new ShelterManager();
-        shelterList = FXCollections.observableArrayList(shelterManager.getShelters().values());
 
+        // Add example shelters
+        try {
+            shelterManager.addShelter("Shelter A", 10);
+            shelterManager.addShelter("Shelter B", 15);
+        } catch (InvalidOperationException e) {
+            e.printStackTrace();
+        }
+
+        // Initialize table
+        shelterList = FXCollections.observableArrayList(shelterManager.getShelters().values());
+        shelterTable.setItems(shelterList);
+
+        // Initialize columns
         nameColumn.setCellValueFactory(new PropertyValueFactory<>("shelterName"));
         capacityColumn.setCellValueFactory(new PropertyValueFactory<>("maxCapacity"));
-
-        shelterTable.setItems(shelterList);
     }
+
+    @FXML
+    private void handleAddShelter() {
+        TextInputDialog nameDialog = new TextInputDialog();
+        nameDialog.setTitle("Add Shelter");
+        nameDialog.setHeaderText(null);
+        nameDialog.setContentText("Shelter Name");
+
+        Optional<String> nameResult = nameDialog.showAndWait();
+        if (nameResult.isPresent()) {
+            String name = nameResult.get().trim();
+            if (name.isEmpty()) {
+                showAlert(Alert.AlertType.ERROR, "Error", "Shelter name cannot be empty");
+                return;
+            }
+
+            TextInputDialog capacityDialog = new TextInputDialog();
+            capacityDialog.setTitle("Add Shelter");
+            capacityDialog.setHeaderText(null);
+            capacityDialog.setContentText("Max Capacity");
+
+            Optional<String> capacityResult = capacityDialog.showAndWait();
+            if (capacityResult.isPresent()) {
+                String capacityStr = capacityResult.get().trim();
+                try {
+                    int capacity = Integer.parseInt(capacityStr);
+                    if (capacity <= 0) {
+                        showAlert(Alert.AlertType.ERROR, "Error", "Maximum capacity must be greater than 0");
+                        return;
+                    }
+                    shelterManager.addShelter(name, capacity);
+                    shelterList.add(shelterManager.getShelter(name));
+                } catch (NumberFormatException e) {
+                    showAlert(Alert.AlertType.ERROR, "Error", "Maximum capacity must be an integer");
+                } catch (InvalidOperationException e) {
+                    showAlert(Alert.AlertType.ERROR, "Błąd", e.getMessage());
+                }
+            }
+        }
+    }
+
+    @FXML
+    private void handleRemoveShelter() {
+        AnimalShelter selectedShelter = shelterTable.getSelectionModel().getSelectedItem();
+        if (selectedShelter != null) {
+            Alert confirmation = new Alert(Alert.AlertType.CONFIRMATION);
+            confirmation.setTitle("Remove Shelter");
+            confirmation.setHeaderText(null);
+            confirmation.setContentText("Are you sure you want to remove shelter: " + selectedShelter.getShelterName() + "?");
+
+            Optional<ButtonType> result = confirmation.showAndWait();
+            if (result.isPresent() && result.get() == ButtonType.OK) {
+                try {
+                    shelterManager.removeShelter(selectedShelter.getShelterName());
+                    shelterList.remove(selectedShelter);
+                } catch (InvalidOperationException e) {
+                    showAlert(Alert.AlertType.ERROR, "Error", e.getMessage());
+                }
+            }
+        } else {
+            showAlert(Alert.AlertType.WARNING, "No Shelter Selected", "Please select a shelter to remove");
+        }
+    }
+
+    
 }
+

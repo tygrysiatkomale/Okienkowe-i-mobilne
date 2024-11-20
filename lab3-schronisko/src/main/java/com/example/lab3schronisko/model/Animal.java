@@ -1,6 +1,5 @@
 package com.example.lab3schronisko.model;
 
-
 import java.util.Objects;
 
 // 2. Klasa Animal
@@ -23,32 +22,51 @@ public class Animal implements Comparable<Animal> {
         return name;
     }
 
+    public void setName(String name) {
+        this.name = name;
+    }
+
     public String getSpecies() {
         return species;
+    }
+
+    public void setSpecies(String species) {
+        this.species = species;
     }
 
     public AnimalCondition getCondition() {
         return condition;
     }
 
+    public void setCondition(AnimalCondition condition) {
+        this.condition = condition;
+    }
+
     public int getAge() {
         return age;
+    }
+
+    public void setAge(int age) {
+        if (age < 0) {
+            throw new IllegalArgumentException("Age must be a positive integer");
+        }
+        this.age = age;
     }
 
     public double getPrice() {
         return price;
     }
 
-    public void setCondition(AnimalCondition condition) {
-        this.condition = condition;
-    }
-
-    public void setAge(int age) {
-        this.age = age;
+    public void setPrice(double price) {
+        if (price < 0) {
+            throw new IllegalArgumentException("Price must be a positive integer");
+        }
+        this.price = price;
     }
 
     public void print() {
-        System.out.printf("Name: %s, Species: %s, Condition: %s, Age: %d, Price: %.2f\n", name, species, condition, age, price);
+        System.out.printf("Name: %s, Species: %s, Condition: %s, Age: %d, Price: %.2f\n",
+                name, species, condition, age, price);
     }
 
     @Override
@@ -59,13 +77,17 @@ public class Animal implements Comparable<Animal> {
     @Override
     public boolean equals(Object obj) {
         if (this == obj) return true;
-        if (obj == null || getClass() != obj.getClass()) return false;
+        if (!(obj instanceof Animal)) return false;
         Animal animal = (Animal) obj;
-        return age == animal.age && name.equals(animal.name) && species.equals(animal.species);
+        return age == animal.age &&
+                Double.compare(animal.price, price) == 0 &&
+                Objects.equals(name, animal.name) &&
+                Objects.equals(species, animal.species) &&
+                condition == animal.condition;
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(name, species, age);
+        return Objects.hash(name, species, condition, age, price);
     }
 }
