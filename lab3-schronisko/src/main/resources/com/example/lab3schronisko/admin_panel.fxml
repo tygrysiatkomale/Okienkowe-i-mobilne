@@ -6,7 +6,10 @@
 
 <BorderPane xmlns:fx="http://javafx.com/fxml" fx:controller="com.example.lab3schronisko.controller.AdminPanelController">
     <top>
-        <HBox spacing="10" padding="10">
+        <HBox spacing="10">
+            <padding>
+                <Insets top="10" right="10" bottom="10" left="10"/>
+            </padding>
             <Label text="Filter Shelters: "/>
             <TextField fx:id="filterTextField" promptText="Enter shelter name" />
             <Button text="Filter" onAction="#handleFilterShelters" fx:id="filterButton"/>
@@ -21,11 +24,14 @@
         </TableView>
     </center>
     <bottom>
-        <HBox spacing="10" padding="10" alignment="CENTER">
-            <Button text="Dodaj Schronisko" onAction="#handleAddShelter" fx:id="addShelterButton"/>
-            <Button text="Usuń Schronisko" onAction="#handleRemoveShelter" fx:id="removeShelterButton"/>
-            <Button text="Edytuj Schronisko" onAction="#handleEditShelter" fx:id="editShelterButton"/>
-            <Button text="Sortuj Schroniska" onAction="#handleSortShelter" fx:id="sortShelterButton"/>
+        <HBox spacing="10" alignment="CENTER">
+            <padding>
+                <Insets top="10" right="10" bottom="10" left="10"/>
+            </padding>
+            <Button text="Add shelter" onAction="#handleAddShelter" fx:id="addShelterButton"/>
+            <Button text="Remove shelter" onAction="#handleRemoveShelter" fx:id="removeShelterButton"/>
+            <Button text="Edit shelter" onAction="#handleEditShelter" fx:id="editShelterButton"/>
+            <Button text="Sort Shelters" onAction="#handleSortShelter" fx:id="sortShelterButton"/>
         </HBox>
     </bottom>
 </BorderPane>

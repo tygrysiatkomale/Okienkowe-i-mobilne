@@ -1,40 +1,41 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import javafx.geometry.Insets?>
-<?import javafx.scene.control.Button?>
-<?import javafx.scene.control.ComboBox?>
-<?import javafx.scene.control.Label?>
-<?import javafx.scene.control.TableColumn?>
-<?import javafx.scene.control.TableView?>
-<?import javafx.scene.control.TextField?>
-<?import javafx.scene.layout.BorderPane?>
-<?import javafx.scene.layout.HBox?>
-<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
 
 <BorderPane xmlns:fx="http://javafx.com/fxml" fx:controller="com.example.lab3schronisko.controller.ClientPanelController">
     <top>
-        <HBox spacing="10" padding="10">
-            <Label text="Choose shelter:"/>
-            <ComboBox fx:id="shelterComboBox" prefWidth="200"/>
-            <Label text="Filter animals:"/>
-            <TextField fx:id="filterTestField" promptText="Enter name or species"/>
-            <Button text="Filter" onAction="#handleFilter"/>
+        <HBox spacing="10">
+            <padding>
+                <Insets top="10" right="10" bottom="10" left="10"/>
+            </padding>
+            <Label text="Choose a Shelter:" />
+            <ComboBox fx:id="shelterComboBox" prefWidth="200" />
+            <Label text="Filter Animals:" />
+            <TextField fx:id="filterTextField" promptText="Enter name or species" />
+            <Button text="Filter" onAction="#handleFilter" fx:id="filterButton"/>
         </HBox>
     </top>
     <center>
-        <TableView fx:id="animalTable" prefWidth="600" prefHeight="400">
+        <TableView fx:id="animalTable" prefWidth="800" prefHeight="400">
             <columns>
-                <TableColumn fx:id="nameColumn" text="Name" prefWidth="150"/>
-                <TableColumn fx:id="speciesColumn" text="Species" prefWidth="150"/>
-                <TableColumn fx:id="ageColumn" text="Age" prefWidth="100"/>
-                <TableColumn fx:id="conditionColumn" text="Condition" prefWidth="200"/>
+                <TableColumn fx:id="nameColumn" text="Name" prefWidth="200" />
+                <TableColumn fx:id="speciesColumn" text="Species" prefWidth="200" />
+                <TableColumn fx:id="ageColumn" text="Age" prefWidth="200" />
+                <TableColumn fx:id="conditionColumn" text="Condition" prefWidth="200" />
             </columns>
         </TableView>
     </center>
     <bottom>
-        <HBox spacing="10" padding="10" alignment="CENTER">
-            <Button text="Adopt Animal" onAction="#handleAdoptAnimal"/>
-            <Button text=""
+        <HBox spacing="10" alignment="CENTER">
+            <padding>
+                <Insets top="10" right="10" bottom="10" left="10"/>
+            </padding>
+            <Button text="Adopt an Animal" onAction="#handleAdoptAnimal" fx:id="adoptButton"/>
+            <Button text="Contact with the Shelter" onAction="#handleContactShelter" fx:id="contactButton"/>
+            <Button text="Sort by Age" onAction="#handleSortByAge" fx:id="sortByAgeButton"/>
         </HBox>
     </bottom>
 </BorderPane>

@@ -12,7 +12,7 @@ public class MainApplication extends Application {
         FXMLLoader loader = new FXMLLoader(getClass().getResource("login.fxml"));
         Scene scene = new Scene(loader.load());
         primaryStage.setScene(scene);
-        primaryStage.setTitle("Schronisko - Logowanie");
+        primaryStage.setTitle("Shelter - Login");
         primaryStage.show();
     }
 
