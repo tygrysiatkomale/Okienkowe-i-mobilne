@@ -2,15 +2,30 @@
 
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
+<?import javafx.geometry.Insets?>
 
-<AnchorPane xmlns:fx="http://javafx.com/fxml" fx:controller="com.example.lab3schronisko.controller.AdminPanelController">
-    <children>
-        <!--Different elements-->
-        <TableView fx:id="shelterTable" layoutX="50" layoutY="50" prefWidth="400" prefHeight="300">
+<BorderPane xmlns:fx="http://javafx.com/fxml" fx:controller="com.example.lab3schronisko.controller.AdminPanelController">
+    <top>
+        <HBox spacing="10" padding="10">
+            <Label text="Filter Shelters: "/>
+            <TextField fx:id="filterTextField" promptText="Enter shelter name" />
+            <Button text="Filter" onAction="#handleFilterShelters" fx:id="filterButton"/>
+        </HBox>
+    </top>
+    <center>
+        <TableView fx:id="shelterTable" prefWidth="600" prefHeight="400">
             <columns>
-                <TableColumn fx:id="nameColumn" text="Shelter Name" prefWidth="200"/>
-                <TableColumn fx:id="capacityColumn" text="Max Capacity" prefWidth="200"/>
+                <TableColumn fx:id="nameColumn" text="Shelter name" prefWidth="300"/>
+                <TableColumn fx:id="capacityColumn" text="Max capacity" prefWidth="300"/>
             </columns>
         </TableView>
-    </children>
-</AnchorPane>
+    </center>
+    <bottom>
+        <HBox spacing="10" padding="10" alignment="CENTER">
+            <Button text="Dodaj Schronisko" onAction="#handleAddShelter" fx:id="addShelterButton"/>
+            <Button text="Usuń Schronisko" onAction="#handleRemoveShelter" fx:id="removeShelterButton"/>
+            <Button text="Edytuj Schronisko" onAction="#handleEditShelter" fx:id="editShelterButton"/>
+            <Button text="Sortuj Schroniska" onAction="#handleSortShelter" fx:id="sortShelterButton"/>
+        </HBox>
+    </bottom>
+</BorderPane>

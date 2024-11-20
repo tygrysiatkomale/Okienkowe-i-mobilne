@@ -9,6 +9,7 @@ import javafx.collections.FXCollections;
 import javafx.scene.control.*;
 import javafx.fxml.FXML;
 
+import java.util.Comparator;
 import java.util.Optional;
 
 
@@ -171,6 +172,12 @@ public class AdminPanelController {
         } else {
             showAlert(Alert.AlertType.WARNING, "No Shelter Selected", "Please select a shelter to edit");
         }
+    }
+
+    @FXML
+    private void handleSortShelter() {
+        FXCollections.sort(shelterList, Comparator.comparingInt(AnimalShelter::getMaxCapacity));
+        shelterTable.setItems(shelterList);
     }
 
     @FXML
