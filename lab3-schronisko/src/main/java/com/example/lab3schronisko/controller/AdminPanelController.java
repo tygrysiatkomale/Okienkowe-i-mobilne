@@ -7,10 +7,13 @@ import com.example.lab3schronisko.model.AnimalCondition;
 import com.example.lab3schronisko.model.ShelterManager;
 import javafx.scene.control.cell.PropertyValueFactory;
 import com.example.lab3schronisko.model.AnimalShelter;
+import javafx.beans.value.ObservableValue;
+import javafx.beans.value.ChangeListener;
 import javafx.collections.ObservableList;
 import javafx.collections.FXCollections;
 import javafx.scene.control.*;
 import javafx.fxml.FXML;
+
 
 import java.util.Comparator;
 import java.util.Optional;
@@ -48,7 +51,26 @@ public class AdminPanelController {
     @FXML
     private Button addAnimalButton;
 
+    @FXML
+    private TableView<Animal> animalTable;
+
+    @FXML
+    private TableColumn<Animal, String> animalNameColumn;
+
+    @FXML
+    private TableColumn<Animal, String> animalSpeciesColumn;
+
+    @FXML
+    private TableColumn<Animal, Integer> animalAgeColumn;
+
+    @FXML
+    private TableColumn<Animal, String> animalConditionColumn;
+
+    @FXML
+    private TableColumn<Animal, Double> animalPriceColumn;
+
     private ObservableList<AnimalShelter> shelterList;
+    private ObservableList<Animal> animalList;
 
     private ShelterManager shelterManager;
 
@@ -60,7 +82,15 @@ public class AdminPanelController {
         try {
             shelterManager.addShelter("Shelter A", 10);
             shelterManager.addShelter("Shelter B", 15);
-        } catch (InvalidOperationException e) {
+
+            // Add example animals
+            shelterManager.getShelter("Shelter A").addAnimal(new Animal(
+                    "Jack", "Dog", AnimalCondition.HEALTHY, 3, 200.0));
+            shelterManager.getShelter("Shelter A").addAnimal(new Animal(
+                    "Mike", "Cat", AnimalCondition.SICK, 2, 100.0));
+            shelterManager.getShelter("Shelter A").addAnimal(new Animal(
+                    "Tony", "Parrot", AnimalCondition.QUARANTINE, 5, 500.0));
+        } catch (InvalidOperationException | CapacityExceededException e) {
             e.printStackTrace();
         }
 
@@ -68,9 +98,39 @@ public class AdminPanelController {
         shelterList = FXCollections.observableArrayList(shelterManager.getShelters().values());
         shelterTable.setItems(shelterList);
 
-        // Initialize columns
+        // Initialize shelter columns
         nameColumn.setCellValueFactory(new PropertyValueFactory<>("shelterName"));
         capacityColumn.setCellValueFactory(new PropertyValueFactory<>("maxCapacity"));
+
+        // Initialize animal table columns
+        animalNameColumn.setCellValueFactory(new PropertyValueFactory<>("name"));
+        animalSpeciesColumn.setCellValueFactory(new PropertyValueFactory<>("species"));
+        animalAgeColumn.setCellValueFactory(new PropertyValueFactory<>("age"));
+        animalConditionColumn.setCellValueFactory(new PropertyValueFactory<>("condition"));
+        animalPriceColumn.setCellValueFactory(new PropertyValueFactory<>("price"));
+
+        // Add listener to shelterTable selection
+        shelterTable.getSelectionModel().selectedItemProperty().addListener(new ChangeListener<AnimalShelter>() {
+            @Override
+            public void changed(ObservableValue<? extends AnimalShelter> observable, AnimalShelter oldValue, AnimalShelter newValue) {
+                if (newValue != null) {
+                    showAnimalsInShelter(newValue);
+                } else {
+                    animalTable.setItems(FXCollections.observableArrayList());
+                }
+            }
+        });
+
+        // Select first by default
+        if (!shelterList.isEmpty()) {
+            shelterTable.getSelectionModel().selectFirst();
+            showAnimalsInShelter(shelterList.get(0));
+        }
+    }
+
+    private void showAnimalsInShelter(AnimalShelter shelter) {
+        animalList = FXCollections.observableArrayList(shelter.getAnimalList());
+        animalTable.setItems(animalList);
     }
 
     @FXML
@@ -304,6 +364,8 @@ public class AdminPanelController {
         } catch (CapacityExceededException | InvalidOperationException e) {
             showAlert(Alert.AlertType.ERROR, "Error", e.getMessage());
         }
+
+        showAnimalsInShelter(selectedShelter);
     }
 
     private void showAlert(Alert.AlertType alertType, String title, String message){

@@ -16,12 +16,24 @@
         </HBox>
     </top>
     <center>
-        <TableView fx:id="shelterTable" prefWidth="600" prefHeight="400">
-            <columns>
-                <TableColumn fx:id="nameColumn" text="Shelter name" prefWidth="300"/>
-                <TableColumn fx:id="capacityColumn" text="Max capacity" prefWidth="300"/>
-            </columns>
-        </TableView>
+        <VBox spacing="10">
+            <TableView fx:id="shelterTable" prefWidth="600" prefHeight="200">
+                <columns>
+                    <TableColumn fx:id="nameColumn" text="Shelter name" prefWidth="300"/>
+                    <TableColumn fx:id="capacityColumn" text="Max capacity" prefWidth="300"/>
+                </columns>
+            </TableView>
+            <Label text="Animals in Selected Shelter:"/>
+            <TableView fx:id="animalTable" prefWidth="600" prefHeight="200">
+                <columns>
+                    <TableColumn fx:id="animalNameColumn" text="Name" prefWidth="150"/>
+                    <TableColumn fx:id="animalSpeciesColumn" text="Species" prefWidth="150"/>
+                    <TableColumn fx:id="animalAgeColumn" text="Age" prefWidth="100"/>
+                    <TableColumn fx:id="animalConditionColumn" text="Condition" prefWidth="150"/>
+                    <TableColumn fx:id="animalPriceColumn" text="Price" prefWidth="100"/>
+                </columns>
+            </TableView>
+        </VBox>
     </center>
     <bottom>
         <HBox spacing="10" alignment="CENTER">
@@ -33,7 +45,6 @@
             <Button text="Edit shelter" onAction="#handleEditShelter" fx:id="editShelterButton"/>
             <Button text="Sort Shelters" onAction="#handleSortShelter" fx:id="sortShelterButton"/>
             <Button text="Add Animal" onAction="#handleAddAnimal" fx:id="addAnimalButton"/>
-
         </HBox>
     </bottom>
 </BorderPane>
