@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE hibernate-configuration SYSTEM
+        "https://hibernate.org/dtd/hibernate-configuration-3.0.dtd">
+<hibernate-configuration>
+    <session-factory>
+        <!-- Konfiguracja połączenia z bazą -->
+        <property name="hibernate.connection.driver_class">com.mysql.cj.jdbc.Driver</property>
+        <property name="hibernate.connection.url">jdbc:mysql://localhost:3306/lab4_hibernate?serverTimezone=UTC</property>
+        <property name="hibernate.connection.username">labuser</property>
+        <property name="hibernate.connection.password">labpassword</property>
+
+        <!-- Dialekt -->
+        <property name="hibernate.dialect">org.hibernate.dialect.MySQLDialect</property>
+
+        <!-- Dodatkowe opcje -->
+        <property name="hibernate.hbm2ddl.auto">update</property>
+        <property name="hibernate.show_sql">true</property>
+        <property name="hibernate.format_sql">true</property>
+
+        <!-- Tutaj dodasz klasy encyjne -->
+        <mapping class="pl.edu.lab4.entity.Animal"/>
+        <mapping class="pl.edu.lab4.entity.AnimalShelter"/>
+        <mapping class="pl.edu.lab4.entity.Rating"/>
+
+    </session-factory>
+</hibernate-configuration>
