@@ -10,6 +10,7 @@ import pl.edu.lab4.entity.Rating;
 
 import java.time.LocalDate;
 import java.util.List;
+import java.util.Objects;
 
 public class AppController {
     private final AnimalShelterDAO animalShelterDAO;
@@ -90,6 +91,17 @@ public class AppController {
             }
         } catch (Exception e) {
             System.err.println("Error in calculating average grade: " + e.getMessage());
+        }
+    }
+
+    public void printShelterRatingStats() {
+        List<Object[]> stats = ratingDAO.getShelterRatingStats();
+        for (Object[] row : stats) {
+            AnimalShelter shelter = (AnimalShelter) row[0];
+            Long count = (Long) row[1];
+            Double avg = (Double) row[2];
+            System.out.printf("Shelter: %s, Number of ratings: %d, Average: %.2f%n",
+                    shelter.getShelterName(), count, avg);
         }
     }
 

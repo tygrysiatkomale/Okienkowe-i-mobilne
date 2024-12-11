@@ -10,7 +10,7 @@
         <property name="hibernate.connection.password">labpassword</property>
 
         <!-- Dialekt -->
-        <property name="hibernate.dialect">org.hibernate.dialect.MySQLDialect</property>
+        <property name="hibernate.dialect">org.hibernate.dialect.MySQL8Dialect</property>
 
         <!-- Dodatkowe opcje -->
         <property name="hibernate.hbm2ddl.auto">update</property>

@@ -6,7 +6,7 @@ import java.io.*;
 import java.util.List;
 
 public class DataSerializer {
-    public void saveSheltersToFile(List<AnimalShelter> shelters, String fileName) {
+    public void saveSheltersToFile(List<AnimalShelter> shelters, String filename) {
         try (ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream(filename))) {
             oos.writeObject(shelters);
             System.out.println("The list of shelters has been saved to a file: " + filename);

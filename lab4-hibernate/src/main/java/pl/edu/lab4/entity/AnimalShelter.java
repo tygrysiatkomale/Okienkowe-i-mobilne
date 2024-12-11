@@ -1,6 +1,9 @@
 package pl.edu.lab4.entity;
 
-import jakarta.persistence.*;
+import org.hibernate.annotations.Fetch;
+import org.hibernate.annotations.FetchMode;
+
+import javax.persistence.*;
 
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -18,11 +21,12 @@ public class AnimalShelter implements Serializable {
     private String shelterName;
     private int maxCapacity;
 
-    @OneToMany(mappedBy = "shelter", cascade = CascadeType.ALL, orphanRemoval = true)
+    @OneToMany(mappedBy = "shelter", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.EAGER)
     private List<Animal> animalList = new ArrayList<>();
 
     // New relation. One shelter can have many ratings
-    @OneToMany(mappedBy = "shelter", cascade = CascadeType.ALL, orphanRemoval = true)
+    @OneToMany(mappedBy = "shelter", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.EAGER)
+    @Fetch(FetchMode.SUBSELECT)
     private List<Rating> ratings = new ArrayList<>();
 
     public AnimalShelter() {

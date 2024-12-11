@@ -1,6 +1,6 @@
 package pl.edu.lab4.entity;
 
-import jakarta.persistence.*;
+import javax.persistence.*;
 
 import java.io.Serializable;
 import java.time.LocalDate;

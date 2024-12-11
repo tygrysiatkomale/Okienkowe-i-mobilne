@@ -60,4 +60,21 @@ public class RatingDAO {
                     .list();
         }
     }
+
+    public List<Object[]> getShelterRatingStats() {
+        try (Session session = HibernateUtil.getSessionFactory().openSession()) {
+            var cb = session.getCriteriaBuilder();
+            var cq = cb.createQuery(Object[].class);
+            var ratingRoot = cq.from(Rating.class);
+
+            cq.multiselect(
+                    ratingRoot.get("shelter"),
+                    cb.count(ratingRoot),
+                    cb.avg(ratingRoot.get("value"))
+            );
+            cq.groupBy(ratingRoot.get("shelter"));
+
+            return session.createQuery(cq).getResultList();
+        }
+    }
 }
