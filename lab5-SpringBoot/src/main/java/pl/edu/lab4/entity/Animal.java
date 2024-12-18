@@ -63,6 +63,11 @@ public class Animal implements Serializable {
         return shelter;
     }
 
+    public long getId() {
+        return id;
+    }
+
+
     public void setShelter(AnimalShelter shelter) {
         this.shelter = shelter;
     }
