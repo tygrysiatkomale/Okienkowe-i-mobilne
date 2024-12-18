@@ -4,7 +4,7 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import pl.edu.lab4.dto.AnimalShelterDtO;
+import pl.edu.lab4.dto.AnimalShelterDTO;
 import pl.edu.lab4.entity.Animal;
 import pl.edu.lab4.entity.AnimalShelter;
 import pl.edu.lab4.exception.EntityNotFoundException;
