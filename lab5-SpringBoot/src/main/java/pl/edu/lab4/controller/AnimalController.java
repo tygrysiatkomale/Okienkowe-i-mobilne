@@ -25,8 +25,8 @@ public class AnimalController {
         return ResponseEntity.ok(created);
     }
 
-    // DELETE /api/animal/{id} - removes animal
-    @DeleteMapping("/animal/{id}")
+    // DELETE /api/delete/animal/{id} - removes animal
+    @DeleteMapping("/delete/animal/{id}")
     public ResponseEntity<String> deleteAnimal(@PathVariable Long id) {
         animalService.deleteAnimal(id);
         return ResponseEntity.ok("Animal deleted");
@@ -41,5 +41,4 @@ public class AnimalController {
         }
         return ResponseEntity.ok(animal);
     }
-
 }
