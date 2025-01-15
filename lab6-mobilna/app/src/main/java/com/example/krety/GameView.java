@@ -100,8 +100,8 @@ public class GameView extends View {
                 random.nextInt(256)));
 
         moleRadius = 50 + random.nextInt(101);
-        velocityX = random.nextInt(11) - 5;
-        velocityY = random.nextInt(11) - 5;
+        velocityX = random.nextInt(21) - 5;
+        velocityY = random.nextInt(21) - 5;
         if (velocityX == 0) velocityX = 3;
         if (velocityY == 0) velocityY = 3;
     }
